@@ -3,7 +3,7 @@ class ShopsController < ApplicationController
   def index
     @shops = Shop.all
     @reviews = Review.all
-
+    @photos = Photo.all
 
     render("shops/index.html.erb")
   end
@@ -12,6 +12,13 @@ class ShopsController < ApplicationController
     @shop = Shop.find(params[:id])
     @reviews = Review.all
     @photos = Photo.all
+    @street_address = @shop.address
+    @street_address_without_spaces = URI.encode(@street_address)
+    url="http://maps.googleapis.com/maps/api/geocode/json?address="+@street_address_without_spaces
+    raw_data = open(url).read
+    parsed_data = JSON.parse(raw_data)
+    @latitude = parsed_data["results"][0]["geometry"]["location"]["lat"]
+    @longitude = parsed_data["results"][0]["geometry"]["location"]["lng"]
 
     render("shops/show.html.erb")
   end
