@@ -1,0 +1,62 @@
+<!-- Validation failure messages -->
+<% if @review.errors.any? %>
+<% @review.errors.full_messages.each do |message| %>
+<div class="alert alert-dismissable alert-danger">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <%= message %>
+</div>
+<% end %>
+<% end %>
+
+<div class="page-header">
+  <h3>Review <%= @shop.name %></h3>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <form action="/create_review" method="post">
+      <!-- Hidden input for authenticity token to protect from forgery -->
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+      <!-- Label and input for rating -->
+      <div class="form-group">
+        <label for="rating" class="control-label">
+          Rating
+        </label>
+        <select class="form-control" value="<%= @review.rating %>" name="rating">
+          <option value="0">0</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+
+        <!-- <input type="text" id="rating" name="rating" placeholder="Rating, whole number between 0 and 5" class="form-control" value="<%= @review.rating %>"> -->
+      </div>
+
+      <!-- Hidden for shop_id -->
+      <input type="hidden" id="shop_id" name="shop_id" placeholder="<%= @shop.name %>" class="form-control" value="<%= @shop.id %>">
+
+
+      <!-- Label and input for user_id -->
+      <input type="hidden" id="user_id" name="user_id" placeholder="User" class="form-control" value="<%= current_user.id %>">
+
+
+      <!-- Label and input for review -->
+      <div class="form-group">
+        <label for="review" class="control-label">
+          Review
+        </label>
+
+        <textarea id="review" name="review" placeholder="Review" class="form-control" rows="3"><%= @review.review %></textarea>
+      </div>
+
+      <button class="btn btn-success">
+        Create Review
+      </button>
+      or
+      <a href="/reviews">Cancel</a>
+    </form>
+  </div>
+</div>

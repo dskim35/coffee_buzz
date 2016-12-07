@@ -1,0 +1,49 @@
+<div class="page-header">
+  <h3><%= @shop.name %></h3>
+  <dt>Address</dt>
+  <dd><%= @shop.address %></dd>
+
+  <h1>
+    <a href="/reviews/new/<%= @shop.id %>" class="btn btn-lg btn-success">Add a review!</a>
+    <a href="/photos/new/<%= @shop.id %>" class="btn btn-lg btn-success">Add a Photo!</a>
+  </h1>
+
+</div>
+
+<% @photos.each do |photo| %>
+<% if photo.shop_id == @shop.id %>
+<a href="/photos/<%= photo.id %>">
+  <img class="thumb1" src="<%= photo.photo_url %>" width=200>
+</a>
+<% end %>
+<% end %>
+
+
+<% @reviews.each do |review| %>
+<% if review.shop_id == @shop.id %>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">
+
+      <% i=1 %>
+      <% num=review.rating %>
+
+      <% while i <= num do %>
+      <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+      <% i += 1 %>
+      <% end %>
+
+      <% while i <= 5 %>
+      <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+      <% i += 1 %>
+      <% end %>
+
+      <small><%= review.user.email %></small>
+    </h3>
+  </div>
+  <div class="panel-body">
+    <%= review.review %>
+  </div>
+</div>
+<% end %>
+<% end %>

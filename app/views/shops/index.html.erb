@@ -1,0 +1,62 @@
+<div class="page-header">
+  <h1>
+    Coffee Shops
+  </h1>
+  <h1>
+    <a href="/shops/new" class="btn btn-lg btn-success">Add a new shop!</a>
+  </h1>
+</div>
+
+<!-- <% @reviews.each do |review| %>
+<%= review.id %>
+<% end %> -->
+
+<% @shops.each do |shop| %>
+<a href="/shops/<%= shop.id %>">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">
+        <div class="">
+          <%= shop.name %>
+        </div>
+        <div class="">
+
+
+          <% points=0 %>
+          <% count = 0 %>
+
+          <% @reviews.each do |review| %>
+
+          <% if review.shop_id==shop.id %>
+          <% points += review.rating %>
+          <% count += 1%>
+          <% end %>
+
+          <% end %>
+          <% score = points/count.to_f %>
+          <%= score.round(2) %>
+          (<%= count %> reviews)
+
+
+        </div>
+        <div class="">
+          <% i=1 %>
+          <% num=score.round(0) %>
+          <% while i <= num do %>
+          <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+          <% i += 1 %>
+          <% end %>
+          <% while i <= 5 %>
+          <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+          <% i += 1 %>
+          <% end %>
+        </div>
+      </h3>
+    </div>
+
+    <div class="panel-body">
+      <%= shop.address %>
+    </div>
+  </div>
+</a>
+<% end %>
